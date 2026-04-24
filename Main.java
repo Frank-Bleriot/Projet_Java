@@ -13,7 +13,7 @@ public class Main {
             System.out.println("\n--- MENU ---");
             System.out.println("1. Créer un nouvel étudiant");
             System.out.println("2. Saisir les notes d’un étudiant");
-            System.out.println("3. Générer le classement");
+            System.out.println("3. Classer par merite");
             System.out.println("0. Quitter");
             System.out.print("Choix : ");
             choix = sc.nextInt();
@@ -36,6 +36,5 @@ public class Main {
 
         } while (choix != 0);
 
-        System.out.println("Fin du programme.");
     }
 }
