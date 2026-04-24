@@ -4,18 +4,17 @@ public class Etudiant {
     private String nom;
     private String prenom;
 
-    // Tableau des notes : 6 matières
+    // Tableau ou je vais stcoker les notes des etudiants : 6 matières
     private double[] notes = new double[6];
 
     private double moyenne;
 
-    // Constructeur avec notes à 0
+    // constructeur de ma classe etudiant pour la creation d un etudiant
     public Etudiant(String matricule, String nom, String prenom) {
         this.matricule = matricule;
         this.nom = nom;
         this.prenom = prenom;
 
-        // Notes déjà initialisées à 0
         calculerMoyenne();
     }
 
@@ -38,7 +37,7 @@ public class Etudiant {
         calculerMoyenne();
     }
 
-    // Calcul automatique de la moyenne
+    // Je calcule de la moyenne
     public void calculerMoyenne() {
         double somme = 0;
         for (double n : notes) {
@@ -47,7 +46,7 @@ public class Etudiant {
         this.moyenne = somme / notes.length;
     }
 
-    // Setter pour modifier une note
+    // Ici j utilise un Setter pour modifier une note
     public void setNote(int index, double valeur) {
         if (index >= 0 && index < notes.length) {
             notes[index] = valeur;
@@ -55,7 +54,7 @@ public class Etudiant {
         }
     }
 
-    // Getter pour récupérer une note
+    // Ici le Getter est pour récupérer une note
     public double getNote(int index) {
         return (index >= 0 && index < notes.length) ? notes[index] : -1;
     }
