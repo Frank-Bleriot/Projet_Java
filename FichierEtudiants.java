@@ -1,12 +1,11 @@
 import java.io.*;
 import java.util.ArrayList;
 
-// Classe responsable du fichier CSV principal
 public class FichierEtudiants {
 
     private static final String FICHIER = "Repertoire_Etudiants.csv";
 
-    // Créer le fichier s'il n'existe pas
+    // ------------------- INITIALISATION -------------------
     public static void initialiserFichier() {
         File f = new File(FICHIER);
 
@@ -19,15 +18,14 @@ public class FichierEtudiants {
         }
     }
 
-    // Lire tous les étudiants
+    // ------------------- LECTURE -------------------
     public static ArrayList<Etudiant> lireEtudiants() {
 
         ArrayList<Etudiant> liste = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(FICHIER))) {
 
-            String ligne;
-            br.readLine(); // ignorer l'en-tête
+            String ligne = br.readLine(); // ignorer l'en-tête
 
             while ((ligne = br.readLine()) != null) {
 
@@ -55,7 +53,7 @@ public class FichierEtudiants {
         return liste;
     }
 
-    // Sauvegarder toute la liste
+    // ------------------- SAUVEGARDE -------------------
     public static void sauvegarderListe(ArrayList<Etudiant> liste) {
 
         try (PrintWriter pw = new PrintWriter(new FileWriter(FICHIER))) {
@@ -63,10 +61,17 @@ public class FichierEtudiants {
             pw.println("Matricule,Nom,Prenom,Prog,Stat,BD_Av,BD_Mass,Struct,IA,Moyenne");
 
             for (Etudiant e : liste) {
-                pw.println(e.matricule + "," + e.nom + "," + e.prenom + ","
-                        + e.prog + "," + e.stat + "," + e.bdAv + ","
-                        + e.bdMass + "," + e.struct + "," + e.ia + ","
-                        + e.moyenne);
+
+                pw.print(e.getMatricule() + ",");
+                pw.print(e.getNom() + ",");
+                pw.print(e.getPrenom() + ",");
+
+                // 6 notes
+                for (int i = 0; i < 6; i++) {
+                    pw.print(e.getNote(i) + ",");
+                }
+
+                pw.println(e.getMoyenne());
             }
 
         } catch (Exception e) {
@@ -74,11 +79,11 @@ public class FichierEtudiants {
         }
     }
 
-    // Chercher un étudiant par matricule
+    // ------------------- RECHERCHE -------------------
     public static Etudiant chercherEtudiant(String matricule, ArrayList<Etudiant> liste) {
 
         for (Etudiant e : liste) {
-            if (e.matricule.equalsIgnoreCase(matricule)) {
+            if (e.getMatricule().equalsIgnoreCase(matricule)) {
                 return e;
             }
         }
