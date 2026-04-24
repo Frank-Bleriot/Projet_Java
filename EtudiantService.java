@@ -11,7 +11,7 @@ public class EtudiantService {
             "Prog", "Stat", "BD avancée", "BD massives", "Structure", "IA"
     };
 
-    // ------------------- OPTION 1 : CRÉER UN ÉTUDIANT -------------------
+    // procedure pour creer un etudiant
     public static void creerEtudiant(Scanner sc) {
 
         ArrayList<Etudiant> liste = FichierEtudiants.lireEtudiants();
