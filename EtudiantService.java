@@ -7,6 +7,10 @@ import java.io.PrintWriter;
 
 public class EtudiantService {
 
+    private static final String[] MATIERES = {
+            "Prog", "Stat", "BD avancée", "BD massives", "Structure", "IA"
+    };
+
     // ------------------- OPTION 1 : CRÉER UN ÉTUDIANT -------------------
     public static void creerEtudiant(Scanner sc) {
 
@@ -15,13 +19,19 @@ public class EtudiantService {
         System.out.print("Matricule : ");
         String m = sc.nextLine();
 
+        // Vérification du matricule déjà existant
+        Etudiant existant = FichierEtudiants.chercherEtudiant(m, liste);
+        if (existant != null) {
+            System.out.println("Erreur : cet étudiant existe déjà !");
+            return; // On arrête ici
+        }
+
         System.out.print("Nom : ");
         String nom = sc.nextLine();
 
         System.out.print("Prénom : ");
         String prenom = sc.nextLine();
 
-        // Notes par défaut à 0
         Etudiant e = new Etudiant(m, nom, prenom);
 
         liste.add(e);
@@ -45,16 +55,11 @@ public class EtudiantService {
             return;
         }
 
-        String[] matieres = {"Prog", "Stat", "BD avancée", "BD massives", "Structure", "IA"};
-
-        e.prog = demanderNote(sc, matieres[0]);
-        e.stat = demanderNote(sc, matieres[1]);
-        e.bdAv = demanderNote(sc, matieres[2]);
-        e.bdMass = demanderNote(sc, matieres[3]);
-        e.struct = demanderNote(sc, matieres[4]);
-        e.ia = demanderNote(sc, matieres[5]);
-
-        e.calculerMoyenne();
+        // Boucle sur les 6 matières
+        for (int i = 0; i < MATIERES.length; i++) {
+            double note = demanderNote(sc, MATIERES[i]);
+            e.setNote(i, note);
+        }
 
         FichierEtudiants.sauvegarderListe(liste);
 
@@ -71,20 +76,24 @@ public class EtudiantService {
             return;
         }
 
-        Collections.sort(liste, Comparator.comparingDouble(e -> -e.moyenne));
+        // Tri décroissant par moyenne
+        Collections.sort(liste, Comparator.comparingDouble(Etudiant::getMoyenne).reversed());
 
         try (PrintWriter pw = new PrintWriter(new FileWriter("Resultats_Etudiants.csv"))) {
 
             pw.println("Matricule,Nom,Prenom,Moyenne");
 
             for (Etudiant e : liste) {
-                pw.println(e.matricule + "," + e.nom + "," + e.prenom + "," + e.moyenne);
+                pw.println(e.getMatricule() + "," +
+                        e.getNom() + "," +
+                        e.getPrenom() + "," +
+                        e.getMoyenne());
             }
 
             System.out.println("Classement généré dans Resultats_Etudiants.csv");
 
-        } catch (Exception e) {
-            System.out.println("Erreur écriture classement : " + e.getMessage());
+        } catch (Exception ex) {
+            System.out.println("Erreur écriture classement : " + ex.getMessage());
         }
     }
 
