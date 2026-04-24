@@ -1,38 +1,25 @@
-// Classe représentant un étudiant
 public class Etudiant {
 
-    String matricule;
-    String nom;
-    String prenom;
+    private String matricule;
+    private String nom;
+    private String prenom;
 
-    // Notes
-    double prog;
-    double stat;
-    double bdAv;
-    double bdMass;
-    double struct;
-    double ia;
+    // Tableau des notes : 6 matières
+    private double[] notes = new double[6];
 
-    double moyenne;
+    private double moyenne;
 
-    // Constructeur avec notes par défaut à 0
+    // Constructeur avec notes à 0
     public Etudiant(String matricule, String nom, String prenom) {
         this.matricule = matricule;
         this.nom = nom;
         this.prenom = prenom;
 
-        // Notes initialisées à 0
-        this.prog = 0;
-        this.stat = 0;
-        this.bdAv = 0;
-        this.bdMass = 0;
-        this.struct = 0;
-        this.ia = 0;
-
+        // Notes déjà initialisées à 0
         calculerMoyenne();
     }
 
-    // Constructeur utilisé lors de la lecture du fichier CSV
+    // Constructeur utilisé lors de la lecture du CSV
     public Etudiant(String matricule, String nom, String prenom,
                     double prog, double stat, double bdAv,
                     double bdMass, double struct, double ia) {
@@ -41,18 +28,56 @@ public class Etudiant {
         this.nom = nom;
         this.prenom = prenom;
 
-        this.prog = prog;
-        this.stat = stat;
-        this.bdAv = bdAv;
-        this.bdMass = bdMass;
-        this.struct = struct;
-        this.ia = ia;
+        this.notes[0] = prog;
+        this.notes[1] = stat;
+        this.notes[2] = bdAv;
+        this.notes[3] = bdMass;
+        this.notes[4] = struct;
+        this.notes[5] = ia;
 
         calculerMoyenne();
     }
 
-    // Calcul de la moyenne
+    // Calcul automatique de la moyenne
     public void calculerMoyenne() {
-        this.moyenne = (prog + stat + bdAv + bdMass + struct + ia) / 6.0;
+        double somme = 0;
+        for (double n : notes) {
+            somme += n;
+        }
+        this.moyenne = somme / notes.length;
+    }
+
+    // Setter pour modifier une note
+    public void setNote(int index, double valeur) {
+        if (index >= 0 && index < notes.length) {
+            notes[index] = valeur;
+            calculerMoyenne();
+        }
+    }
+
+    // Getter pour récupérer une note
+    public double getNote(int index) {
+        return (index >= 0 && index < notes.length) ? notes[index] : -1;
+    }
+
+    public double getMoyenne() {
+        return moyenne;
+    }
+
+    public String getMatricule() {
+        return matricule;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    @Override
+    public String toString() {
+        return matricule + " - " + nom + " " + prenom + " | Moyenne : " + moyenne;
     }
 }
