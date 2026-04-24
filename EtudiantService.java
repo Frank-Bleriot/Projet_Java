@@ -76,7 +76,7 @@ public class EtudiantService {
             return;
         }
 
-        // Tri décroissant par moyenne
+        // Triage de la moyenne 
         Collections.sort(liste, Comparator.comparingDouble(Etudiant::getMoyenne).reversed());
 
         try (PrintWriter pw = new PrintWriter(new FileWriter("Resultats_Etudiants.csv"))) {
