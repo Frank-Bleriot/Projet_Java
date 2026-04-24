@@ -40,7 +40,7 @@ public class EtudiantService {
         System.out.println("Étudiant ajouté !");
     }
 
-    // ------------------- OPTION 2 : SAISIR LES NOTES -------------------
+    // saisie des notes 
     public static void saisirNotes(Scanner sc) {
 
         ArrayList<Etudiant> liste = FichierEtudiants.lireEtudiants();
@@ -66,7 +66,7 @@ public class EtudiantService {
         System.out.println("Notes mises à jour !");
     }
 
-    // ------------------- OPTION 3 : CLASSEMENT -------------------
+    // classer les etudiants
     public static void genererClassement() {
 
         ArrayList<Etudiant> liste = FichierEtudiants.lireEtudiants();
